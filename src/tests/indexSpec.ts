@@ -6,14 +6,10 @@ const request = supertest(app);
 
 describe("test endpoint responses", () => {
     beforeAll(async () => {
-        try {
-            await fs.unlink("public/thumbs/icelandwaterfall_800_800.jpg");
-            await fs.unlink("public/thumbs/noImage_800_600.jpg");
-            await fs.writeFile(
-                `public/thumbs/icelandwaterfall_800_600.jpg`,
-                sharp(`public/images/icelandwaterfall.jpg`).resize(800, 600)
-            );
-        } catch (error) {}
+        await fs.writeFile(
+            `public/thumbs/icelandwaterfall_800_600.jpg`,
+            sharp(`public/images/icelandwaterfall.jpg`).resize(800, 600)
+        );
     });
     it("should return a 200(ok) response when the thumbnail exists", async () => {
         const response = await request.get(
@@ -46,5 +42,9 @@ describe("test endpoint responses", () => {
             "/?image=noImage&width=-800&height=600"
         );
         expect(response.status).toBe(400);
+    });
+    afterAll(async () => {
+        await fs.unlink("public/thumbs/icelandwaterfall_800_800.jpg");
+        await fs.unlink("public/thumbs/icelandwaterfall_800_600.jpg");
     });
 });
