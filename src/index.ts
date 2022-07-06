@@ -37,3 +37,5 @@ app.get("/", async (req: Request, res: Response) => {
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 });
+
+export default app;

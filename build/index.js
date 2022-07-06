@@ -59,10 +59,10 @@ app.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 8]);
-                return [4 /*yield*/, fs_1.promises.open("public/images/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), "r")];
+                return [4 /*yield*/, fs_1.promises.open("public/thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), "r")];
             case 2:
                 _a.sent();
-                res.sendFile("images/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
+                res.status(200).sendFile("thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
                     root: path_1.default.join(__dirname, "..", "public"),
                 });
                 return [3 /*break*/, 8];
@@ -74,13 +74,13 @@ app.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, fs_1.promises.writeFile("public/thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), (0, sharp_1.default)("public/images/".concat(image, ".jpg")).resize(width, height))];
             case 5:
                 _a.sent();
-                res.sendFile("thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
+                res.status(201).sendFile("thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
                     root: path_1.default.join(__dirname, "..", "public"),
                 });
                 return [3 /*break*/, 7];
             case 6:
                 error_1 = _a.sent();
-                res.send("<h1>Sorry, this image is not available</h1>");
+                res.status(404).send("<h1>Sorry, this image is not available</h1>");
                 return [3 /*break*/, 7];
             case 7: return [3 /*break*/, 8];
             case 8: return [2 /*return*/];
@@ -90,3 +90,4 @@ app.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, func
 app.listen(port, function () {
     console.log("App listening at http://localhost:".concat(port));
 });
+exports.default = app;
