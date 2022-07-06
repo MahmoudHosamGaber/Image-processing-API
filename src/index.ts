@@ -12,8 +12,8 @@ app.get("/", async (req: Request, res: Response) => {
     const widthInput = req.query.width as string;
     const heightInput = req.query.height as string;
 
-    const height: number = parseInt(heightInput) || 400;
-    const width: number = parseInt(widthInput) || 400;
+    const height: number = parseInt(heightInput) ?? 400;
+    const width: number = parseInt(widthInput) ?? 400;
     try {
         await fs.open(`public/thumbs/${image}_${width}_${height}.jpg`, "r");
         res.status(200).sendFile(`thumbs/${image}_${width}_${height}.jpg`, {
