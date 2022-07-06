@@ -25,6 +25,8 @@ app.get("/", async (req: Request, res: Response) => {
         });
     } catch (_error) {
         try {
+            await fs.open(`public/images/${image}.jpg`, "r");
+
             await fs.writeFile(
                 `public/thumbs/${image}_${width}_${height}.jpg`,
                 sharp(`public/images/${image}.jpg`).resize(width, height)

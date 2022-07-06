@@ -63,32 +63,35 @@ app.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 }
                 _c.label = 1;
             case 1:
-                _c.trys.push([1, 3, , 8]);
+                _c.trys.push([1, 3, , 9]);
                 return [4 /*yield*/, fs_1.promises.open("public/thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), "r")];
             case 2:
                 _c.sent();
                 res.status(200).sendFile("thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
                     root: path_1.default.join(__dirname, "..", "public"),
                 });
-                return [3 /*break*/, 8];
+                return [3 /*break*/, 9];
             case 3:
                 _error_1 = _c.sent();
                 _c.label = 4;
             case 4:
-                _c.trys.push([4, 6, , 7]);
-                return [4 /*yield*/, fs_1.promises.writeFile("public/thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), (0, sharp_1.default)("public/images/".concat(image, ".jpg")).resize(width, height))];
+                _c.trys.push([4, 7, , 8]);
+                return [4 /*yield*/, fs_1.promises.open("public/images/".concat(image, ".jpg"), "r")];
             case 5:
+                _c.sent();
+                return [4 /*yield*/, fs_1.promises.writeFile("public/thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), (0, sharp_1.default)("public/images/".concat(image, ".jpg")).resize(width, height))];
+            case 6:
                 _c.sent();
                 res.status(201).sendFile("thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
                     root: path_1.default.join(__dirname, "..", "public"),
                 });
-                return [3 /*break*/, 7];
-            case 6:
+                return [3 /*break*/, 8];
+            case 7:
                 error_1 = _c.sent();
                 res.status(404).send("<h1>Sorry, this image is not available</h1>");
-                return [3 /*break*/, 7];
-            case 7: return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [3 /*break*/, 9];
+            case 9: return [2 /*return*/];
         }
     });
 }); });
