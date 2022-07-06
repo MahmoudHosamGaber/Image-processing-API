@@ -14,6 +14,9 @@ app.get("/", async (req: Request, res: Response) => {
 
     const height: number = parseInt(heightInput) ?? 400;
     const width: number = parseInt(widthInput) ?? 400;
+    if (width <= 0 || height <= 0) {
+        throw new Error("The image dimensions must be positive");
+    }
     try {
         await fs.open(`public/thumbs/${image}_${width}_${height}.jpg`, "r");
         res.status(200).sendFile(`thumbs/${image}_${width}_${height}.jpg`, {
