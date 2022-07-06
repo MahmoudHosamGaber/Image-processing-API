@@ -41,7 +41,7 @@ describe("test endpoint responses", () => {
         );
         expect(response.status).toBe(404);
     });
-    it("should raise an error if any of the dimensions is non positive", async () => {
+    it("should return a 400(bad request) if any of the dimensions is non positive", async () => {
         const response = await request.get(
             "/?image=noImage&width=-800&height=600"
         );
