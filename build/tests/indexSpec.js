@@ -116,7 +116,7 @@ describe("test endpoint responses", function () {
             }
         });
     }); });
-    it("should raise an error if any of the dimensions is non positive", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("should return a 400(bad request) if any of the dimensions is non positive", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
