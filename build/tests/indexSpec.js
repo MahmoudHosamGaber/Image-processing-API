@@ -41,8 +41,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../index"));
+var fs_1 = require("fs");
+var sharp_1 = __importDefault(require("sharp"));
 var request = (0, supertest_1.default)(index_1.default);
 describe("test endpoint responses", function () {
+    beforeAll(function () { return __awaiter(void 0, void 0, void 0, function () {
+        var error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 4, , 5]);
+                    return [4 /*yield*/, fs_1.promises.unlink("public/thumbs/icelandwaterfall_800_800.jpg")];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, fs_1.promises.unlink("public/thumbs/noImage_800_600.jpg")];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, fs_1.promises.writeFile("public/thumbs/icelandwaterfall_800_600.jpg", (0, sharp_1.default)("public/images/icelandwaterfall.jpg").resize(800, 600))];
+                case 3:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _a.sent();
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
+            }
+        });
+    }); });
     it("should return a 200(ok) response when the thumbnail exists", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -75,6 +100,30 @@ describe("test endpoint responses", function () {
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(404);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should still return a 404(not found) after not finding the image in the images folder", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get("/?image=noImage&width=800&height=600")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(404);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should raise an error if any of the dimensions is non positive", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get("/?image=noImage&width=-800&height=600")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(400);
                     return [2 /*return*/];
             }
         });

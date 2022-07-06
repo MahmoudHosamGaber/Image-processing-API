@@ -48,38 +48,43 @@ var port = 3000;
 app.use(express_1.default.static(path_1.default.join(__dirname, "..", "public")));
 app.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var image, widthInput, heightInput, height, width, _error_1, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
                 image = req.query.image;
                 widthInput = req.query.width;
                 heightInput = req.query.height;
-                height = parseInt(heightInput) || 400;
-                width = parseInt(widthInput) || 400;
-                _a.label = 1;
+                height = (_a = parseInt(heightInput)) !== null && _a !== void 0 ? _a : 400;
+                width = (_b = parseInt(widthInput)) !== null && _b !== void 0 ? _b : 400;
+                if (width <= 0 || height <= 0) {
+                    res.status(400).send("<h1>The image dimensions must be positive</h1>");
+                    return [2 /*return*/];
+                }
+                _c.label = 1;
             case 1:
-                _a.trys.push([1, 3, , 8]);
+                _c.trys.push([1, 3, , 8]);
                 return [4 /*yield*/, fs_1.promises.open("public/thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), "r")];
             case 2:
-                _a.sent();
+                _c.sent();
                 res.status(200).sendFile("thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
                     root: path_1.default.join(__dirname, "..", "public"),
                 });
                 return [3 /*break*/, 8];
             case 3:
-                _error_1 = _a.sent();
-                _a.label = 4;
+                _error_1 = _c.sent();
+                _c.label = 4;
             case 4:
-                _a.trys.push([4, 6, , 7]);
+                _c.trys.push([4, 6, , 7]);
                 return [4 /*yield*/, fs_1.promises.writeFile("public/thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), (0, sharp_1.default)("public/images/".concat(image, ".jpg")).resize(width, height))];
             case 5:
-                _a.sent();
+                _c.sent();
                 res.status(201).sendFile("thumbs/".concat(image, "_").concat(width, "_").concat(height, ".jpg"), {
                     root: path_1.default.join(__dirname, "..", "public"),
                 });
                 return [3 /*break*/, 7];
             case 6:
-                error_1 = _a.sent();
+                error_1 = _c.sent();
                 res.status(404).send("<h1>Sorry, this image is not available</h1>");
                 return [3 /*break*/, 7];
             case 7: return [3 /*break*/, 8];
