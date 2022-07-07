@@ -4,7 +4,14 @@ import { promises as fs } from "fs";
 import sharp from "sharp";
 const request = supertest(app);
 
-describe("test endpoint responses", () => {
+describe("test the main API endpoint", () => {
+    it("should return a 200 response", async () => {
+        const response = await request.get("/");
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("test the image conversion endpoint responses", () => {
     beforeAll(async () => {
         await fs.mkdir("public/thumbs", { recursive: true });
         await fs.writeFile(
