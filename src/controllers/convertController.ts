@@ -20,37 +20,38 @@ const convertImage = async (req: Request, res: Response) => {
         return;
     }
 
-    await fs.mkdir("public/thumbs", { recursive: true });
-
-    try {
+    const serveFileIfExists = async () => {
         await fs.open(`public/thumbs/${image}_${width}_${height}.jpg`, "r");
         res.status(200).sendFile(`thumbs/${image}_${width}_${height}.jpg`, {
             root: path.join(__dirname, "..", "..", "public"),
         });
-    } catch (_error) {
-        try {
-            await fs.open(
-                path.join(
-                    __dirname,
-                    "..",
-                    "..",
-                    "public",
-                    "images",
-                    `${image}.jpg`
-                ),
-                "r"
-            );
+    };
 
-            await fs.writeFile(
-                `public/thumbs/${image}_${width}_${height}.jpg`,
-                sharp(`public/images/${image}.jpg`).resize(width, height)
-            );
-            res.status(201).sendFile(`thumbs/${image}_${width}_${height}.jpg`, {
-                root: path.join(__dirname, "..", "..", "public"),
-            });
+    const resizeAndStoreImage = async () => {
+        await fs.open(`public/images/${image}.jpg`, "r");
+        await fs.writeFile(
+            `public/thumbs/${image}_${width}_${height}.jpg`,
+            sharp(`public/images/${image}.jpg`).resize(width, height)
+        );
+        res.status(201).sendFile(`thumbs/${image}_${width}_${height}.jpg`, {
+            root: path.join(__dirname, "..", "..", "public"),
+        });
+    };
+
+    const serveResizedImage = async () => {
+        try {
+            await resizeAndStoreImage();
         } catch (error) {
             res.status(404).send("<h1>Sorry, this image is not available</h1>");
         }
+    };
+
+    await fs.mkdir("public/thumbs", { recursive: true });
+
+    try {
+        await serveFileIfExists();
+    } catch (_error) {
+        await serveResizedImage();
     }
 };
 
