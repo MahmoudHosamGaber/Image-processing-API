@@ -57,7 +57,7 @@ app.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 height = !isNaN(parseInt(heightInput))
                     ? parseInt(heightInput)
                     : 400;
-                width = !isNaN(parseInt(heightInput))
+                width = !isNaN(parseInt(widthInput))
                     ? parseInt(widthInput)
                     : 400;
                 if (width <= 0 || height <= 0) {

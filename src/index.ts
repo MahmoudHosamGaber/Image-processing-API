@@ -15,9 +15,10 @@ app.get("/", async (req: Request, res: Response) => {
     const height: number = !isNaN(parseInt(heightInput))
         ? parseInt(heightInput)
         : 400;
-    const width: number = !isNaN(parseInt(heightInput))
+    const width: number = !isNaN(parseInt(widthInput))
         ? parseInt(widthInput)
         : 400;
+
     if (width <= 0 || height <= 0) {
         res.status(400).send("<h1>The image dimensions must be positive</h1>");
         return;
