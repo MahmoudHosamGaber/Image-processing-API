@@ -6,6 +6,7 @@ const request = supertest(app);
 
 describe("test endpoint responses", () => {
     beforeAll(async () => {
+        await fs.mkdir("public/thumbs", { recursive: true });
         await fs.writeFile(
             `public/thumbs/icelandwaterfall_800_600.jpg`,
             sharp(`public/images/icelandwaterfall.jpg`).resize(800, 600)
