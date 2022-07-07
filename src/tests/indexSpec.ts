@@ -14,33 +14,33 @@ describe("test endpoint responses", () => {
     });
     it("should return a 200(ok) response when the thumbnail exists", async () => {
         const response = await request.get(
-            "/?image=icelandwaterfall&width=800&height=600"
+            "/api/convert?image=icelandwaterfall&width=800&height=600"
         );
         expect(response.status).toBe(200);
     });
 
     it("should return a 201(created) response when the thumbnail doesn't exists", async () => {
         const response = await request.get(
-            "/?image=icelandwaterfall&width=800&height=800"
+            "/api/convert?image=icelandwaterfall&width=800&height=800"
         );
         expect(response.status).toBe(201);
     });
 
     it("should return a 404(not found) when the image is not in the images folder", async () => {
         const response = await request.get(
-            "/?image=noImage&width=800&height=600"
+            "/api/convert?image=noImage&width=800&height=600"
         );
         expect(response.status).toBe(404);
     });
     it("should still return a 404(not found) after not finding the image in the images folder", async () => {
         const response = await request.get(
-            "/?image=noImage&width=800&height=600"
+            "/api/convert?image=noImage&width=800&height=600"
         );
         expect(response.status).toBe(404);
     });
     it("should return a 400(bad request) if any of the dimensions is non positive", async () => {
         const response = await request.get(
-            "/?image=noImage&width=-800&height=600"
+            "/api/convert?image=noImage&width=-800&height=600"
         );
         expect(response.status).toBe(400);
     });
