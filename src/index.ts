@@ -23,6 +23,9 @@ app.get("/", async (req: Request, res: Response) => {
         res.status(400).send("<h1>The image dimensions must be positive</h1>");
         return;
     }
+
+    await fs.mkdir("public/thumbs", { recursive: true });
+
     try {
         await fs.open(`public/thumbs/${image}_${width}_${height}.jpg`, "r");
         res.status(200).sendFile(`thumbs/${image}_${width}_${height}.jpg`, {
